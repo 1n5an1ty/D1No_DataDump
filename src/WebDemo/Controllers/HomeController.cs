@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebDemo.Data;
+using WebDemo.Data.Models;
 using WebDemo.Models;
 using WebDemo.Services;
 
@@ -13,52 +14,59 @@ namespace WebDemo.Controllers
     public class HomeController : Controller
     {
         private readonly AlertsApiService _alertService;
-        private readonly DataService _dataService;
 
         public HomeController()
         {
             _alertService = new AlertsApiService();
-            _dataService = new DataService();
         }
         public async Task<ActionResult> Index()
         {
             var currentAlerts = await _alertService.GetCurrentAlertsAsync();
+            var events = await ProcessEvents(currentAlerts);
 
-            var alertTypes = await _dataService.GetAlertTypesByIdsAsync(currentAlerts.Events.Select(x => x.Alert_Type_Id));
-            var capturedPCs = await _dataService.GetCapturedPCsByIdsAsync(currentAlerts.Events.Select(x => x.Capture_PC_Id));
-            var recordings = await _dataService.GetRecordingsByIdsAsync(currentAlerts.Events.Select(x => x.Recording_Id));
+            return View(events);
+        }
 
+        private static async Task<IEnumerable<TriggeredEvent>> ProcessEvents(AlertResponse currentAlerts)
+        {
             var events = new List<TriggeredEvent>();
 
-            foreach (var alert in currentAlerts.Events)
+            using (var svc = new DataService())
             {
-                if (alert.Timestamps.Count > 1)
+                var alertTypes = await svc.GetAlertTypesByIdsAsync(currentAlerts.Events.Select(x => x.Alert_Type_Id));
+                var capturedPCs = await svc.GetCapturedPCsByIdsAsync(currentAlerts.Events.Select(x => x.Capture_PC_Id));
+                var recordings = await svc.GetRecordingsByIdsAsync(currentAlerts.Events.Select(x => x.Recording_Id));
+
+                foreach (var alert in currentAlerts.Events)
                 {
-                    for (int i = 0; i < alert.Timestamps.Count; i++)
+                    if (alert.Timestamps.Count > 1)
                     {
-                        events.Add(new TriggeredEvent
+                        for (int i = 0; i < alert.Timestamps.Count; i++)
                         {
-                            Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
-                            Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
-                            CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                            Triggered = new DateTime(alert.Timestamps[i])
-                        });
+                            events.Add(new TriggeredEvent
+                            {
+                                Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
+                                Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
+                                CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
+                                Triggered = new DateTime(alert.Timestamps[i])
+                            });
+                        }
+
+                        continue;
                     }
 
-                    continue;
+
+                    events.Add(new TriggeredEvent
+                    {
+                        Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
+                        Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
+                        CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
+                        Triggered = new DateTime(alert.Timestamps[0])
+                    });
                 }
-
-
-                events.Add(new TriggeredEvent
-                {
-                    Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
-                    Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
-                    CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                    Triggered = new DateTime(alert.Timestamps[0])
-                });
             }
 
-            return View();
+            return events;
         }
     }
 }
