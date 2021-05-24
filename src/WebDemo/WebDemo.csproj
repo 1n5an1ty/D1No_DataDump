@@ -129,16 +129,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\CompanyDbContext.cs" />
-    <Compile Include="Data\Models\Alert.cs" />
+    <Compile Include="Data\Models\AlertType.cs" />
+    <Compile Include="Data\Models\CapturedPC.cs" />
+    <Compile Include="Data\Models\Recording.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\TriggeredEvent.cs" />
     <Compile Include="Models\AlertEvent.cs" />
     <Compile Include="Models\AlertRange.cs" />
     <Compile Include="Models\AlertResponse.cs" />
     <Compile Include="Models\AlertTimeRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AlertsApiService.cs" />
+    <Compile Include="Services\DataService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
