@@ -180,6 +180,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="JSON\TimeFrame.cs" />
+    <Compile Include="JSON\FileTime.cs" />
+    <Compile Include="Models\AlertTimestamp.cs" />
     <Compile Include="Models\TriggeredEvent.cs" />
     <Compile Include="Models\AlertEvent.cs" />
     <Compile Include="Models\AlertRange.cs" />
