@@ -41,16 +41,10 @@ namespace WebDemo.JSON
             if (token.Type == JTokenType.Array)
             {
                 var children = token.Children();
-                var results = new List<DateTime>();
-                foreach (var item in children)
-                {
-                    results.Add(DateTime.FromFileTimeUtc((long)item));
-                }
-
-                return results;
+                return children.Select(x => DateTime.FromFileTimeUtc((long)x)).ToList();
             }
             // some other format we're not expecting
-            throw new JsonSerializationException("Unexpected JSON format encountered in MaterialArrayConverter: " + token.ToString());
+            throw new JsonSerializationException("Unexpected JSON format encountered in FileTimeListConverter: " + token.ToString());
         }
 
         public override bool CanConvert(Type objectType)
