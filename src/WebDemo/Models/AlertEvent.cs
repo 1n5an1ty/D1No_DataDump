@@ -14,6 +14,7 @@ namespace WebDemo.Models
         public long Recording_Id { get; set; }
         [JsonConverter(typeof(TimeFrame))]
         public TimeSpan Average_Time_Between_Events { get; set; }
-        public List<long> Timestamps { get; set; }
+        [JsonConverter(typeof(FileTimeList))]
+        public List<DateTime> Timestamps { get; set; }
     }
 }

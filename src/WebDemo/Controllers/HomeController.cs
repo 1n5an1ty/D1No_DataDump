@@ -45,7 +45,7 @@ namespace WebDemo.Controllers
                                 Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
                                 Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
                                 CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                                Triggered = new DateTime(alert.Timestamps[i])
+                                Triggered = alert.Timestamps.ElementAt(i)
                             });
                         }
 
@@ -58,7 +58,7 @@ namespace WebDemo.Controllers
                         Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
                         Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
                         CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                        Triggered = new DateTime(alert.Timestamps[0])
+                        Triggered = alert.Timestamps.ElementAt(0)
                     });
                 }
             }
