@@ -18,7 +18,7 @@ namespace WebDemo.Data.Models
         [StringLength(45)]
         public string Username { get; set; }
 
-        [Column("passwor")]
+        [Column("password")]
         [Required]
         [StringLength(45)]
         public string Password { get; set; }

@@ -13,6 +13,7 @@ namespace WebDemo.Data
         public virtual DbSet<AlertType> AlertTypes { get; set; }
         public virtual DbSet<CapturedPC> CapturedPCs { get; set; }
         public virtual DbSet<Recording> Recordings { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
 
         public CompanyDbContext() : base("CompanyDbContext")
         { 

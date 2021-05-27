@@ -33,6 +33,11 @@ namespace WebDemo.Services
             return await _dbContext.Recordings.Where(x => ids.Contains(x.Id)).ToListAsync();
         }
 
+        public async Task<IEnumerable<Country>> GetCountriesByCodesAsync(IEnumerable<string> codes)
+        {
+            return await _dbContext.Countries.Where(x => codes.Contains(x.CountryCode)).ToListAsync();
+        }
+
         public void Dispose()
         {
             _dbContext.Dispose();
