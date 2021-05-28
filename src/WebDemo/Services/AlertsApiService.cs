@@ -23,7 +23,7 @@ namespace WebDemo.Services
         public async Task<AlertResponse> GetCurrentAlertsAsync(int? lookbackMinutes = null)
         {
             if (lookbackMinutes.HasValue)
-                _apiEndpoint = _apiEndpoint + $"?minutes_back={lookbackMinutes}";
+                _apiEndpoint += $"?minutes_back={lookbackMinutes}";
 
             var response = await _client.GetAsync(_apiEndpoint);
             if (response.IsSuccessStatusCode)
