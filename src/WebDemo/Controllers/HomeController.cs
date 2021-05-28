@@ -17,7 +17,6 @@ namespace WebDemo.Controllers
             _alertDashboardService = new AlertDashboardService();
         }
 
-
         public async Task<ActionResult> Index()
         {            
             return View(await _alertDashboardService.LoadAllAlerts());
@@ -28,7 +27,6 @@ namespace WebDemo.Controllers
         {
             return Json(await _alertDashboardService.SearcAlerts(filters));
         }
-
 
         protected override void Dispose(bool disposing)
         {
