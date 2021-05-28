@@ -8,7 +8,7 @@ namespace WebDemo.Models
     public class RequestFilters
     {
         public EventType? EventType { get; set; }
-        public int? HoursLookback { get; set; }
+        public int? MinutesLookback { get; set; }
         public int? AlertTypeId { get; set; }
         public long? CapturedPCId { get; set; }
         public long? RecordingId { get; set; }

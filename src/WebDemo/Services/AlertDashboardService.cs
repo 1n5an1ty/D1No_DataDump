@@ -35,7 +35,8 @@ namespace WebDemo.Services
 
         public async Task<IEnumerable<TriggeredEvent>> SearcAlerts(RequestFilters filters)
         {
-            var currentAlerts = await _apiService.GetCurrentAlertsAsync();
+            var currentAlerts = await _apiService.GetCurrentAlertsAsync(filters?.MinutesLookback);
+
             if (filters != null)
             {
                 currentAlerts = ProcessAlertsWithFilters(currentAlerts, filters);

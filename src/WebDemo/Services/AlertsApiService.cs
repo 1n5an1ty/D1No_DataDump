@@ -12,7 +12,7 @@ namespace WebDemo.Services
     public class AlertsApiService : IDisposable
     {
         private readonly HttpClient _client;
-        private const string _apiEndpoint = "https://world2capture.global-mmk.com/alert_analytics";
+        private static string _apiEndpoint = "https://world2capture.global-mmk.com/alert_analytics";
 
         public AlertsApiService()
         {
@@ -20,8 +20,11 @@ namespace WebDemo.Services
         }
 
 
-        public async Task<AlertResponse> GetCurrentAlertsAsync()
+        public async Task<AlertResponse> GetCurrentAlertsAsync(int? lookbackMinutes = null)
         {
+            if (lookbackMinutes.HasValue)
+                _apiEndpoint = _apiEndpoint + $"?minutes_back={lookbackMinutes}";
+
             var response = await _client.GetAsync(_apiEndpoint);
             if (response.IsSuccessStatusCode)
             {
