@@ -9,11 +9,11 @@ using WebDemo.Data.Models;
 
 namespace WebDemo.Services
 {
-    public class DataService : IDisposable
+    public class DatabaseService : IDisposable
     {
         private readonly CompanyDbContext _dbContext;
 
-        public DataService()
+        public DatabaseService()
         {
             _dbContext = new CompanyDbContext();
         }
