@@ -20,9 +20,10 @@ namespace WebDemo.Controllers
 
         public async Task<ActionResult> Index()
         {            
-            return Json(await _alertDashboardService.LoadAllAlerts());
+            return View(await _alertDashboardService.LoadAllAlerts());
         }
 
+        [HttpPost]
         public async Task<ActionResult> Search(RequestFilters filters)
         {
             return Json(await _alertDashboardService.SearcAlerts(filters));
