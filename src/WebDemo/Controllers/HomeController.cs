@@ -17,15 +17,30 @@ namespace WebDemo.Controllers
             _alertDashboardService = new AlertDashboardService();
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {            
-            return View(await _alertDashboardService.LoadAllAlerts());
+            return View();
+        }
+
+        public async Task<ActionResult> ActiveAlerts()
+        {
+            var data = new
+            {
+                data = await _alertDashboardService.LoadAllAlerts()
+            };
+
+            return Json(data);
         }
 
         [HttpPost]
         public async Task<ActionResult> Search(RequestFilters filters)
         {
-            return Json(await _alertDashboardService.SearcAlerts(filters));
+            var data = new
+            {
+                data = await _alertDashboardService.SearcAlerts(filters)
+            };
+
+            return Json(data);
         }
 
         protected override void Dispose(bool disposing)

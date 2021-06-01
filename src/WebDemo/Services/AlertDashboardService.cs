@@ -50,6 +50,12 @@ namespace WebDemo.Services
             var events = ProcessEvents(currentAlerts, alertTypes, capturedPCs, recordings, countries);
             var ranges = ProcessRanges(currentAlerts, alertTypes, capturedPCs, recordings, countries);
 
+            if (filters != null && !string.IsNullOrWhiteSpace(filters.CountryCode))
+            {
+                events = events.Where(x => x.Country == filters.CountryCode);
+                ranges = ranges.Where(x => x.Country == filters.CountryCode);
+            }
+
             return events.Concat(ranges);
         }
 
@@ -106,11 +112,13 @@ namespace WebDemo.Services
                     {
                         events.Add(new TriggeredEvent
                         {
-                            Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
-                            Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
-                            CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                            Triggered = alert.Timestamps.ElementAt(i),
-                            AvgTimeBetweenEvents = alert.Average_Time_Between_Events,
+                            Event_Type = "Event",
+                            Alert_Type = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id)?.Name,
+                            Computer_Name = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id)?.Name,
+                            Recording_Name = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id)?.Name,
+                            Event_Date = alert.Timestamps.ElementAt(i).ToShortDateString(),
+                            Event_Time = alert.Timestamps.ElementAt(i).ToShortTimeString(),
+                            Time_Between = alert.Average_Time_Between_Events.ToString(),
                             Country = countries.FirstOrDefault(x => x.CountryCode == capturedPCs.FirstOrDefault(y => y.Id == alert.Capture_PC_Id).CountryCode).CountryName
                         });
                     }
@@ -121,11 +129,13 @@ namespace WebDemo.Services
 
                 events.Add(new TriggeredEvent
                 {
-                    Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
-                    Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
-                    CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                    Triggered = alert.Timestamps.ElementAt(0),
-                    AvgTimeBetweenEvents = alert.Average_Time_Between_Events,
+                    Event_Type = "Event",
+                    Alert_Type = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id)?.Name,
+                    Computer_Name = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id)?.Name,
+                    Recording_Name = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id)?.Name,
+                    Event_Date = alert.Timestamps.ElementAt(0).ToShortDateString(),
+                    Event_Time = alert.Timestamps.ElementAt(0).ToShortTimeString(),
+                    Time_Between = alert.Average_Time_Between_Events.ToString(),
                     Country = countries.FirstOrDefault(x => x.CountryCode == capturedPCs.FirstOrDefault(y => y.Id == alert.Capture_PC_Id).CountryCode).CountryName
                 });
             }
@@ -149,12 +159,14 @@ namespace WebDemo.Services
                     {
                         events.Add(new TriggeredEvent
                         {
-                            Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
-                            Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
-                            CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                            Triggered = alert.Time_Ranges.ElementAt(i).Start,
-                            IsActive = alert.Currently_In_Alert_State,
-                            Duration = alert.Time_Spent_In_Alert_State,
+                            Event_Type = "Range",
+                            Alert_Type = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id)?.Name,
+                            Computer_Name = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id)?.Name,
+                            Recording_Name = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id)?.Name,
+                            Event_Date = alert.Time_Ranges.ElementAt(i).Start.ToShortDateString(),
+                            Event_Time = alert.Time_Ranges.ElementAt(i).Start.ToShortTimeString(),
+                            Is_Active = alert.Currently_In_Alert_State.ToString(),
+                            Duration = alert.Time_Spent_In_Alert_State.ToString(),
                             Country = countries.FirstOrDefault(x => x.CountryCode == capturedPCs.FirstOrDefault(y => y.Id == alert.Capture_PC_Id).CountryCode).CountryName
                         });
                     }
@@ -165,12 +177,14 @@ namespace WebDemo.Services
 
                 events.Add(new TriggeredEvent
                 {
-                    Alert = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id),
-                    Computer = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id),
-                    CapturedRecording = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id),
-                    Triggered = alert.Time_Ranges.ElementAt(0).Start,
-                    IsActive = alert.Currently_In_Alert_State,
-                    Duration = alert.Time_Spent_In_Alert_State,
+                    Event_Type = "Range",
+                    Alert_Type = alertTypes.FirstOrDefault(x => x.Id == alert.Alert_Type_Id)?.Name,
+                    Computer_Name = capturedPCs.FirstOrDefault(x => x.Id == alert.Capture_PC_Id)?.Name,
+                    Recording_Name = recordings.FirstOrDefault(x => x.Id == alert.Recording_Id)?.Name,
+                    Event_Date = alert.Time_Ranges.ElementAt(0).Start.ToShortDateString(),
+                    Event_Time = alert.Time_Ranges.ElementAt(0).Start.ToShortTimeString(),
+                    Is_Active = alert.Currently_In_Alert_State.ToString(),
+                    Duration = alert.Time_Spent_In_Alert_State.ToString(),
                     Country = countries.FirstOrDefault(x => x.CountryCode == capturedPCs.FirstOrDefault(y => y.Id == alert.Capture_PC_Id).CountryCode).CountryName
                 });
             }

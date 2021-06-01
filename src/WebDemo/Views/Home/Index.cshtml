@@ -1,31 +1,85 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿@model IEnumerable<WebDemo.Models.TriggeredEvent>
+
+<link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Example Project</h1>
+    <p class="lead">This is an example project for testing ...</p>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-12">
+        <h2>Demo Data Table</h2>
+        <table id="active-events" class="display" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Alert Type</th>
+                    <th>Captured PC</th>
+                    <th>Recording</th>
+                    <th>Country</th>
+                    <th>AVG Time Between Events</th>
+                    <th>Duration</th>
+                    <th>Is Active</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Type</th>
+                    <th>Alert Type</th>
+                    <th>Captured PC</th>
+                    <th>Recording</th>
+                    <th>Country</th>
+                    <th>AVG Time Between Events</th>
+                    <th>Duration</th>
+                    <th>Is Active</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#active-events').DataTable({
+            ajax: '@Url.Action("ActiveAlerts")',
+            columns: [
+                {
+                    data: 'event_type'
+                },
+                {
+                    data: 'alert_type'
+                },
+                {
+                    data: 'computer_name'
+                },
+                {
+                    data: 'recording_name'
+                },
+                {
+                    data: 'country'
+                },
+                {
+                    data: 'time_between'
+                },
+                {
+                    data: 'duration'
+                },
+                {
+                    data: 'is_active'
+                },
+                {
+                    data: 'event_date'
+                },
+                {
+                    data: 'event_time'
+                }
+            ]
+        });
+    });
+</script>

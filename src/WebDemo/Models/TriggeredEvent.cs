@@ -8,14 +8,15 @@ namespace WebDemo.Models
 {
     public class TriggeredEvent
     {
-        public EventType Type { get; set; }
+        public string Event_Type { get; set; }
         public string Country { get; set; }
-        public AlertType Alert { get; set; }
-        public CapturedPC Computer { get; set; }
-        public Recording CapturedRecording { get; set; }
-        public DateTime Triggered { get; set; }
-        public TimeSpan AvgTimeBetweenEvents { get; set; }
-        public bool? IsActive { get; set; }
-        public TimeSpan? Duration { get; set; }
+        public string Alert_Type { get; set; }
+        public string Computer_Name { get; set; }
+        public string Recording_Name { get; set; }
+        public string Event_Date { get; set; }
+        public string Event_Time { get; set; }
+        public string Time_Between { get; set; }
+        public string Is_Active { get; set; }
+        public string Duration { get; set; }
     }
 }
